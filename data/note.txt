@@ -1,1 +1,0 @@
-If having new data generation algorithms, make your own jupyter notebook file
