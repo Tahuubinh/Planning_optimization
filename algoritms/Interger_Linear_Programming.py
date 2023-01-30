@@ -5,13 +5,16 @@ import math
 import json
 import os
 from pathlib import Path
+import time
 
 LINK_PROJECT = Path(os.path.abspath(__file__)).parent.parent
-DATA_FOLDER = 'datatest20_3'
-RESULT_FOLDER = f'{LINK_PROJECT}/result/Integer_Linear_Programming/{DATA_FOLDER}'
- 
+# DATA_FOLDER = '\data_v1\datatest20_3'
+DATA= 'data_v2/Type1Large/sample_100_20_30'
+#RESULT_FOLDER = f'{LINK_PROJECT}/result/Integer_Linear_Programming/{DATA_FOLDER}'
+time_limit = 0 
 # Opening JSON file
-with open(f'{LINK_PROJECT}/data/{DATA_FOLDER}/data.json') as json_file:
+with open(f'{LINK_PROJECT}/data/{DATA}.json') as json_file:
+# with open(f'{LINK_PROJECT}/data/{DATA_FOLDER}/data.json') as json_file:
     data = json.load(json_file)
     N = data['N']; m = data['m']; M = data['M']; d = data['d']; s = data['s']; e = data['e']
     d = dict(zip([*range(1, N + 1)], d))
@@ -23,7 +26,8 @@ print(d)
 print(s)
 print(e)
 
-solver = pywraplp.Solver.CreateSolver('SCIP')
+solution = {}
+solver = pywraplp.Solver.CreateSolver('SAT')
 infinity = solver.infinity()
 
 last_pos_day = max(e.values()) + 1
@@ -95,11 +99,17 @@ objective.SetCoefficient(max_productivity_per_day, 1)
 objective.SetCoefficient(min_productivity_per_day, -1)
 objective.SetMinimization()
 
+solver.set_time_limit(200)
+start_time = time.time()
 status = solver.Solve()
+end_time = time.time()
+solution["time"] = end_time - start_time
 
-if status == pywraplp.Solver.OPTIMAL:
+print('Number of variables =', solver.NumVariables())
+print('Number of constraints =', solver.NumConstraints())
+
+if status == pywraplp.Solver.OPTIMAL or status == pywraplp.Solver.FEASIBLE:
     print('Solution:')
-    print('Objective value =', objective.Value())
     print('Root of x: ')
     for field in range(1, N + 1):
         for day in range(last_pos_day):
@@ -108,14 +118,12 @@ if status == pywraplp.Solver.OPTIMAL:
     for day in range(last_pos_day):
         print(productivity[day].solution_value(), end = ' ')
     print()
-    print(min_productivity_per_day.solution_value(), max_productivity_per_day.solution_value())
+    print(min_productivity_per_day.solution_value(), max_productivity_per_day.solution_value()) 
+    solution["obj"] = objective.Value()
+    if status == pywraplp.Solver.FEASIBLE:
+        print('Maybe Not Optimal')
+    #print('Objective value =', objective.Value())
 else:
     print('No solution!')
-
-
-
-
-
-
-print('Number of variables =', solver.NumVariables())
-print('Number of constraints =', solver.NumConstraints())
+    solution["obj"] = "No Solution"
+print(solution)
