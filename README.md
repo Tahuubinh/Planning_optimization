@@ -10,6 +10,38 @@
 
 ### Data version 2 (Use to evaluate)
 
+- **Chỉ số**
+    - r: max total time between start time and end time to harvest
+    - K1: lower bound of number of field to harvest in a day
+    - K2: upper bound of number of field to harvest in a day
+    - low: list of lower bound of total yield in a day
+    - high: list of upper bound of total yield in a day
+    - N: number of fields
+
+```
+r = [5, 5, 5, 10, 10]
+K1 = [4, 2, 10, 4, 2]
+K2 = [6, 3, 10, 6, 3]
+```
+
+- **Large**
+
+```
+low = [20, 30, 40, 50, 60]
+high = [30, 50, 75, 100, 125]
+N = [100, 250, 500, 750, 1000]
+```
+
+- **Small**
+
+```
+low = [10, 20, 30, 40, 50]
+high = [15, 30, 50, 75, 100]
+N = [10, 20, 30, 40, 50]
+```
+
+## Genetic Algorithm
+
 ### Data version 3
 
 ## Results
