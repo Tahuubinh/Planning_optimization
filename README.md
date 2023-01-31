@@ -51,6 +51,13 @@ N = [10, 20, 30, 40, 50]
 ```
 {"Time": 0.014167070388793945, "Result": "No Solution"}
 ```
+## Tabu Search
+
+- **Quy trình thuật toán**
+
+- **Chi tiết thuật toán**
+
+- **Đánh giá:**
 
 ## Genetic Algorithm
 
