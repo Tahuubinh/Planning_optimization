@@ -40,8 +40,6 @@ high = [15, 30, 50, 75, 100]
 N = [10, 20, 30, 40, 50]
 ```
 
-## Genetic Algorithm
-
 ### Data version 3
 
 ## Results
